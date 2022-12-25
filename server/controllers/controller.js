@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 
 const signUp = async (req, res) => {
   // res.send('signingup')
@@ -13,6 +14,17 @@ const home = async (req, res) => {
   })
 }
 
+const authGoogle = () => {
+  passport.authenticate('google', {scope: ['hhtps://googleapis.com/auth/plus.login'] })
+}
+const googleSecret = () => {
+  passport.authenticate('google', {failureRedirect: '/'}),
+  function(req, res) {
+    res.status(401).json({Message: "Failed to authenticate"})
+  }
+}
 
 
-module.exports = { home, signUp }
+
+
+module.exports = { home, signUp, authGoogle, googleSecret}

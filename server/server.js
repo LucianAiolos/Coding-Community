@@ -5,9 +5,9 @@ const router = require('./routes/router')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const passport = require('passport')
+// var findOrCreate = require('mongoose-findorcreate')
+// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 mongoose.set('strictQuery', false) // need this to clear warnings.
-var findOrCreate = require('mongoose-findorcreate')
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 
 const app = express()
 app.use(cors())
@@ -29,21 +29,7 @@ mongoose.connect(mongoDB)
 err => {console.log(err, 'Error Connecting to DB')}
 
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user)
-})
 
-passport.use(new GoogleStrategy ({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: 'http://localhost:9000/auth/google/secret'
-},
-  function(token, tokenSecret, profile, done) {
-    Users.findOrCreate({ userId: profile.id, name: profile.displayName}, function(err, user) {
-      return done(err, user)
-    })
-  }
-))
 
 
 
