@@ -1,17 +1,14 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 const {
   home,
   signUp,
 } = require('../controllers/controller')
 
-// router.get('/test', (req,res) => {
-//   res.send('testing connection')
-// })
-
-// http://localhost:9000/
-
 router.get('/home', home)
 router.post('/sign_up', signUp)
+router.get('/auth/google', passport.authenticate('google', {scope: ['hhtps://googleapis.com/auth/plus.login'] })
+)
 
 module.exports = router
