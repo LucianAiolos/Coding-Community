@@ -5,6 +5,7 @@ const router = require('./routes/router')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const passport = require('passport')
+const passportSetup = require('./config/passport-setup')
 // var findOrCreate = require('mongoose-findorcreate')
 // const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 mongoose.set('strictQuery', false) // need this to clear warnings.

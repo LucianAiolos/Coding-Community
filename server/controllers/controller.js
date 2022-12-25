@@ -1,6 +1,5 @@
 const express = require('express')
-const passport = require('passport')
-
+const passport = require('passport') 
 const signUp = async (req, res) => {
   // res.send('signingup')
 }
@@ -14,9 +13,18 @@ const home = async (req, res) => {
   })
 }
 
+// const authGoogle = () => {
+//   console.log('google authenticating')
+//   passport.authenticate('google', {scope: ['profile']})
+// }
+
 const authGoogle = () => {
+  console.log('authing with google')
   passport.authenticate('google', {scope: ['hhtps://googleapis.com/auth/plus.login'] })
 }
+
+
+
 const googleSecret = () => {
   passport.authenticate('google', {failureRedirect: '/'}),
   function(req, res) {

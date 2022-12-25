@@ -42,6 +42,10 @@ const Home = () => {
     
   }
 
+  const signInWithGoogle = async () => {
+    const res = await fetch('http://localhost/9000/auth/google')
+  }
+
   return (
     <div className='flex flex-col items-center'>
       <div className="hero mb-8">
@@ -85,7 +89,9 @@ const Home = () => {
       <div className="google-signin-container flex flex-col items-center mb-12">
         <p className='font-medium'>Or</p>
         <p className='mb-4'>{signIn ? 'Sign in' : 'Sign up'} in with</p>
-        <img className='w-8/12' src={googleIcon} alt="" />
+        <img className='w-8/12' src={googleIcon} alt="" 
+          onClick={()=> signInWithGoogle()}
+        />
       </div>
       <p onClick={() => setSignIn(!signIn)}>{signIn ? 'Create Account' : 'Sign In'}</p>
     </div>
