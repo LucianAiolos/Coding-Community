@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from 'react'
 import googleIcon from '../assets/googleIcon.svg'
 import { useNavigate } from 'react-router-dom'
+import {GoogleLogin} from 'react-google-login'
 
 
 const Home = () => {
@@ -43,7 +44,24 @@ const Home = () => {
   }
 
   const signInWithGoogle = async () => {
-    const res = await fetch('http://localhost/9000/auth/google')
+    // http://localhost:9000/
+    const res = await fetch('http://localhost:9000/auth/google', {
+      method: "GET", 
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin" : "http://localhost:9000", 
+      }
+    })
+    console.log(res, 'result')
+  }
+
+  const responseSuccessGoogle = (response) => {
+    console.log(response)
+  }
+
+  const responseFailureGoogle = (response) => {
+    console.log(response)
   }
 
   return (
@@ -86,14 +104,24 @@ const Home = () => {
         >{signIn ? 'Sign In' : 'Create Account'}
         </button>
       </form>
+      {/* <GoogleLogin 
+        clientId="139388968546-sv8kno1ld4nn8r8u0rqgeddgpmnhbkuo.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseSuccessGoogle}
+        onFailure={responseFailureGoogle}
+        cookiePolicy={'single_host_origin'}
+      /> */}
       <div className="google-signin-container flex flex-col items-center mb-12">
         <p className='font-medium'>Or</p>
         <p className='mb-4'>{signIn ? 'Sign in' : 'Sign up'} in with</p>
-        <img className='w-8/12' src={googleIcon} alt="" 
+        <img className='w-8/12 cursor-pointer' 
+          src={googleIcon} alt="" 
           onClick={()=> signInWithGoogle()}
         />
       </div>
-      <p onClick={() => setSignIn(!signIn)}>{signIn ? 'Create Account' : 'Sign In'}</p>
+      <p 
+        className='curor-pionter text-aqua-400'
+        onClick={() => setSignIn(!signIn)}>{signIn ? 'Create Account' : 'Sign In'}</p>
     </div>
   )
 }

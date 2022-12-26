@@ -6,32 +6,43 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const passport = require('passport')
 const passportSetup = require('./config/passport-setup')
-// var findOrCreate = require('mongoose-findorcreate')
-// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 mongoose.set('strictQuery', false) // need this to clear warnings.
 
+require('./config/passport-setup')(passport)
+
 const app = express()
-app.use(cors())
 
 const mongoDB = process.env.ATLAS_URI
 const PORT = process.env.PORT
 
-app.use(router)
+
 app.use(session({
   resave: false,
-  saveUninitialized: true,
-  secret: process.env.SECRET
+  saveUninitialized: false,
+  secret: 'keyboard cat',
+  //cookie only works on https
+  // cookie: { secure: true },
 }))
+
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  methods: "GET,POST,PUT,DELETE,OPTIONS",
+}))
+app.use(express.json())
+app.use(router)
+// app.use(function(req, res, next) {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 mongoose.connect(mongoDB)
 .then(()=> {console.log('Connected to DB')}),
 err => {console.log(err, 'Error Connecting to DB')}
 
-
-
-
-
-
 app.listen(PORT, ()=> console.log('Listening on ', PORT))
+
+

@@ -2,39 +2,34 @@ const passport = require('passport')
 var findOrCreate = require('mongoose-findorcreate')
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 const User = require('../models/user')
-require('dotenv').config()
+// require('dotenv').config()
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user)
-})
+console.log('passport')
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user)=> {
-    /// deserialize ??
-    done(null, user)
-  })
-})
-
-console.log('in passport')
-
+module.exports = function(passport){
 passport.use(new GoogleStrategy ({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: 'http://localhost:9000/auth/google/secret'
-},
-  function(token, tokenSecret, profile, done) {
-    // Users.findOrCreate({ userId: profile.id, name: profile.displayName}, function(err, user) {
-    //   return done(err, user)
-    // })
-    console.log('passport callback function fired')
-    console.log(profile, token, tokenSecret)
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: '/auth/google/redirect',
+  }, function(token, tokenSecret, profile, done) {
+        // Users.findOrCreate({ userId: profile.id, name: profile.displayName }, function(err, user) {
+        //   // console.log(err, user)
+        //   return done(err, user)
+        // })
+        console.log(profile)
+      }
+  ))
 
-    function(token, tokenSecret, profile, done) {
-      Users.findOrCreate({ userId: profile.id, name: profile.displayName }, function(err, user) {
-        return done(err, user)
-      })
-    }
-  }
-))
+  passport.serializeUser(function(user, cb) {
+    cb(null, user)
+  })
+  
+  passport.deserializeUser((id, done) => {
+    User.findById(id).then((user)=> {
+      /// deserialize ??
+      done(null, user)
+    })
+  })
+}
 
 module.exports
