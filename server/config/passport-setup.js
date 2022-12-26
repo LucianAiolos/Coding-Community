@@ -10,8 +10,9 @@ module.exports = function(passport){
 passport.use(new GoogleStrategy ({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: '/auth/google/redirect',
-  }, function(token, tokenSecret, profile, done) {
+    callbackURL: '/auth/google/callback',
+    scope: ['profile', 'email'],
+  }, function(token, tokenSecret, profile, cb) {
         // Users.findOrCreate({ userId: profile.id, name: profile.displayName }, function(err, user) {
         //   // console.log(err, user)
         //   return done(err, user)
@@ -24,11 +25,12 @@ passport.use(new GoogleStrategy ({
     cb(null, user)
   })
   
-  passport.deserializeUser((id, done) => {
-    User.findById(id).then((user)=> {
-      /// deserialize ??
-      done(null, user)
-    })
+  passport.deserializeUser((user, cb) => {
+    // User.findById(id).then((user)=> {
+    //   /// deserialize ??
+    //   done(null, user)
+    // })
+    done(null, user)
   })
 }
 

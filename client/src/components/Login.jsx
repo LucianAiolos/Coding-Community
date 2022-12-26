@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {GoogleLogin} from 'react-google-login'
 
 
-const Home = () => {
+const Login = () => {
 
   const styles = {
     input: 'class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-10',
@@ -43,26 +43,22 @@ const Home = () => {
     
   }
 
+  console.log(`${process.env.REACT_APP_API_URL})
+
   const signInWithGoogle = async () => {
-    // http://localhost:9000/
-    const res = await fetch('http://localhost:9000/auth/google', {
-      method: "GET", 
-      mode: 'cors',
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin" : "http://localhost:9000", 
-      }
-    })
-    console.log(res, 'result')
+    window.open(
+      `${process.env.REACT_APP_API_URL}/auth/google/callback`,
+      "_self"
+    )
   }
 
-  const responseSuccessGoogle = (response) => {
-    console.log(response)
-  }
+  // const responseSuccessGoogle = (response) => {
+  //   console.log(response)
+  // }
 
-  const responseFailureGoogle = (response) => {
-    console.log(response)
-  }
+  // const responseFailureGoogle = (response) => {
+  //   console.log(response)
+  // }
 
   return (
     <div className='flex flex-col items-center'>
@@ -126,4 +122,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Login
