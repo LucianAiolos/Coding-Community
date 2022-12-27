@@ -9,10 +9,14 @@ import {Welcome} from './components/Welcome'
 function App() {
   const [user, setUser] = useState(null)
   const mounted = useRef(false)
+
+
+
   const getUser = async () => {
     try {
       const url = `${process.env.REACT_APP_API_URL}/auth/login/success`
-      const {data} = await axios.get(url, {withCredentials: true})
+      const {data} = await axios.get(url, {withCredentials: 'include'})
+       console.log(data)
       setUser(data.user._json)
     } catch(err) {
       console.log(err)
@@ -20,17 +24,19 @@ function App() {
   }
 
   useEffect (() => {
-    if(mounted === false) {
+    if(mounted.current === false) {
       getUser()
-      mounted = true
+      mounted.current = true
     }
   },[])
+
+  console.log(user)
 
   return (
     <>
       <Router>
         <Routes>
-          <Route exact path='/Coding-Community' element={user ? <Welcome/> : <Navigate to='/login'/>} />
+          <Route exact path='/' element={user ? <Welcome user={user}/> : <Navigate to='/login'/>} />
           <Route path='/login' element={user? <Navigate to='/' /> : <Login/>}/>
         </Routes>
       </Router>

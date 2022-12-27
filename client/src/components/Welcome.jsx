@@ -10,7 +10,7 @@ export const Welcome = (userDetails) => {
   }
   return (
     <div>
-      <h2>Welcome {user}</h2>
+      <h2>Welcome {user.name}</h2>
     
       <button onClick={logout}>Log Out</button>
     </div>

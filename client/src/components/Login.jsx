@@ -43,8 +43,6 @@ const Login = () => {
     
   }
 
-  console.log(`${process.env.REACT_APP_API_URL})
-
   const signInWithGoogle = async () => {
     window.open(
       `${process.env.REACT_APP_API_URL}/auth/google/callback`,
