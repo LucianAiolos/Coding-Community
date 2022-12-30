@@ -31,7 +31,6 @@ router.get('/google/callback',
 router.get('/google', passport.authenticate('google', ['profile', 'email']))
 
 router.get('/logout', (req,res) => {
-  console.log('in log out')
   req.logout()
   res.redirect(process.env.CLIENT_URL)
 })

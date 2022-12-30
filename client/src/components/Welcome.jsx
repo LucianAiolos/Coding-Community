@@ -4,7 +4,7 @@ export const Welcome = (userDetails) => {
   const user = userDetails.user
   const logout = async () => {
     window.open(
-      `${process.env.REACT_APP_API_URL}/auth/google/callback`,
+      `${process.env.REACT_APP_API_URL}/auth/logout`,
       "_self"
     )
   }

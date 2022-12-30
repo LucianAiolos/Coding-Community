@@ -4,11 +4,11 @@ const postSchema = require('./posts')
 var findOrCreate = require('mongoose-findorcreate')
 
 const userSchema = new Schema({
-  user_name: {
+  username: {
     type: String, 
     required: true,
   },
-  google_id: {
+  googleId: {
     type: String,
     required: true,
   },
@@ -18,9 +18,13 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   posts: [postSchema],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 userSchema.plugin(findOrCreate)

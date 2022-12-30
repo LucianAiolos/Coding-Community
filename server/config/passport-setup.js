@@ -10,12 +10,22 @@ passport.use(new GoogleStrategy ({
     callbackURL: '/auth/google/callback',
     scope: ['profile', 'email'],
   }, function(token, tokenSecret, profile, callback) {
-        // Users.findOrCreate({ userId: profile.id, name: profile.displayName }, function(err, user) {
-        //   // console.log(err, user)
-        //   return done(err, user)
-        // })
-        // console.log(profile, 'in profile')
-        callback(null, profile)
+    // console.log(profile.emails[0].value, 'in profile')
+        User.findById({ googleId: profile.id }).then((currentUser ) => {
+          if(currentUser) {
+            console.log('user is: ', currentUser)
+            callback(null, currentUser)
+          } else {
+            new User({
+              googleId: profile.id,
+              username: profile.displayName,
+              email: profile.emails[0].value,
+            }).save().then((newUser) => {
+              console.log('created new user', newUser)
+              callback(null, newUser)
+            })
+          }
+        })  
     }
 ))
 
@@ -24,10 +34,8 @@ passport.serializeUser(function(user, cb) {
 })
   
 passport.deserializeUser((user, cb) => {
-    // User.findById(id).then((user)=> {
-    //   /// deserialize ??
-    //   done(null, user)
-    // })
+    User.findById(user.id).then((err, user)=> {
     cb(null, user)
+    })
 })
 
